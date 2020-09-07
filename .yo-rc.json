@@ -1,0 +1,38 @@
+{
+  "generator-jhipster": {
+    "promptValues": {
+      "packageName": "com.mycompany.mygroup"
+    },
+    "jhipsterVersion": "6.9.1",
+    "applicationType": "microservice",
+    "baseName": "kafkautils",
+    "packageName": "com.mycompany.mygroup",
+    "packageFolder": "com/mycompany/mygroup",
+    "serverPort": "8081",
+    "authenticationType": "jwt",
+    "cacheProvider": "no",
+    "enableHibernateCache": false,
+    "websocket": false,
+    "databaseType": "no",
+    "devDatabaseType": "no",
+    "prodDatabaseType": "no",
+    "searchEngine": false,
+    "messageBroker": "kafka",
+    "serviceDiscoveryType": false,
+    "buildTool": "maven",
+    "enableSwaggerCodegen": false,
+    "jwtSecretKey": "MjhiNGQ3Y2NjZTZlMWZhNjNhYzc2ZmZiNTdmMDEzYWY3YjI0MTIyMzU4ZjQwZTE5ZDYyNTUwMGRkOGU5YmM0ODhmOTQ0NzhiNDU0N2FkNmNlY2M0NGVhZmQwZGQ4NDAwZWZjNzZmZjM1Y2YwNDcxMTQ0ODkyY2E0MDgxMWE4NTE=",
+    "embeddableLaunchScript": false,
+    "creationTimestamp": 1599477178983,
+    "testFrameworks": [],
+    "jhiPrefix": "jhi",
+    "entitySuffix": "",
+    "dtoSuffix": "DTO",
+    "otherModules": [],
+    "enableTranslation": false,
+    "clientPackageManager": "npm",
+    "blueprints": [],
+    "skipClient": true,
+    "skipUserManagement": true
+  }
+}
