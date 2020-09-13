@@ -1,6 +1,8 @@
 package com.mycompany.mygroup.web.rest;
 
-import com.mycompany.mygroup.config.KafkaProperties;
+import com.mycompany.mygroup.config.SourceKafkaProperties;
+import com.mycompany.mygroup.config.TargetKafkaProperties;
+
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
@@ -50,15 +52,16 @@ class KafkautilsKafkaResourceIT {
 
     @BeforeEach
     void setup() {
-        KafkaProperties kafkaProperties = new KafkaProperties();
+        SourceKafkaProperties sourceKafkaProperties = new SourceKafkaProperties();
+        TargetKafkaProperties targetKafkaProperties = new TargetKafkaProperties();
         Map<String, String> producerProps = getProducerProps();
-        kafkaProperties.setProducer(new HashMap<>(producerProps));
+        sourceKafkaProperties.setProducer(new HashMap<>(producerProps));
 
         Map<String, String> consumerProps = getConsumerProps("default-group");
         consumerProps.put("client.id", "default-client");
-        kafkaProperties.setConsumer(consumerProps);
+        sourceKafkaProperties.setConsumer(consumerProps);
 
-        KafkautilsKafkaResource kafkaResource = new KafkautilsKafkaResource(kafkaProperties);
+        KafkautilsKafkaResource kafkaResource = new KafkautilsKafkaResource(sourceKafkaProperties, targetKafkaProperties);
 
         restMockMvc = MockMvcBuilders.standaloneSetup(kafkaResource).build();
     }

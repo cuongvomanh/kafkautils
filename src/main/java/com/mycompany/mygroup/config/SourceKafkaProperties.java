@@ -7,8 +7,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
-@ConfigurationProperties(prefix = "kafka")
-public class KafkaProperties {
+@ConfigurationProperties(prefix = "kafka-source")
+public class SourceKafkaProperties {
 
     private String bootStrapServers = "localhost:9092";
 

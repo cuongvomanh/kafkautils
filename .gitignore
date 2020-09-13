@@ -145,3 +145,6 @@ Desktop.ini
 # ESLint
 ######################
 .eslintcache
+# Customise
+nohup.out
+src/main/resources/config/application-server2local.yml
