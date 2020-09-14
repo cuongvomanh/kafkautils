@@ -8,6 +8,7 @@ import java.util.Properties;
 import com.mycompany.mygroup.config.AppConfig;
 import com.mycompany.mygroup.config.KafkaProperties;
 import com.mycompany.mygroup.service.ConvertStreamSerializationFormat;
+import com.mycompany.mygroup.service.TransformStreamService;
 
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.StreamsConfig;
@@ -25,20 +26,21 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/kafkautils-kafka")
 @EnableConfigurationProperties
-public class ConvertStreamSerializationFormatResource {
+public class TransformStreamResource {
 
-    private final Logger log = LoggerFactory.getLogger(KafkautilsKafkaResource.class);
+    private final Logger log = LoggerFactory.getLogger(TransformStreamResource.class);
 
     private final KafkaProperties kafkaProperties;
 
     @Autowired
-    private ConvertStreamSerializationFormat convertStreamSerializationFormat;
+    private TransformStreamService transformStreamService;
 
     private AppConfig appConfig;
+    private Map<Integer,String> RULES;
     private List<String> COLUMNS;
     private Properties props;
 
-    public ConvertStreamSerializationFormatResource(KafkaProperties kafkaProperties, AppConfig appConfig) {
+    public TransformStreamResource(KafkaProperties kafkaProperties, AppConfig appConfig) {
         this.kafkaProperties = kafkaProperties;
         this.appConfig = appConfig;
         this.props = new Properties();
@@ -48,15 +50,16 @@ public class ConvertStreamSerializationFormatResource {
         props.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.String().getClass());
         props.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.String().getClass());
         this.COLUMNS = Arrays.asList(((String) appConfig.getEtctransform().get("columns")).split(" "));
+        this.RULES = (Map<Integer, String>) appConfig.getEtctransform().get("transformrule");
     }
 
-    @PostMapping("/convert")
+    @PostMapping("/transform")
     public ResponseEntity<String> consume(@RequestParam("sourcetopic") String sourceTopic,@RequestParam("targettopic") String targetTopic, @RequestParam Map<String, String> streamsParams) {
         try {
             String inputTopic = (String) appConfig.getEtctransform().get("inputtopic");
             String outputTopic = (String) appConfig.getEtctransform().get("outputtopic");
             System.out.println("DDEBUG sourcetopic: " + (sourceTopic != null));
-            convertStreamSerializationFormat.run(this.props, this.COLUMNS, (sourceTopic != null) ? sourceTopic : inputTopic, (targetTopic != null) ? targetTopic : outputTopic);
+            transformStreamService.run(this.props, this.COLUMNS, this.RULES, (sourceTopic != null) ? sourceTopic : inputTopic, (targetTopic != null) ? targetTopic : outputTopic);
             return new ResponseEntity<String>(HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
