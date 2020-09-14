@@ -6,6 +6,13 @@
 while true; do ./reproduce.sh;done
 ```
 
+```
+java -jar -Dspring.profiles.active=server2local target/kafkautils-0.0.1-SNAPSHOT.jar
+curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json'   --header 'X-XSRF-TOKEN: ' 'http://localhost:8050/api/kafkautils-kafka/convert?sourcetopic=cdr_success_toll_collection-133&targettopic=cdr_success_toll_collection-133-json'
+
+
+```
+
 This application was generated using JHipster 6.9.1, you can find documentation and help at [https://www.jhipster.tech/documentation-archive/v6.9.1](https://www.jhipster.tech/documentation-archive/v6.9.1).
 
 This is a "microservice" application intended to be part of a microservice architecture, please refer to the [Doing microservices with JHipster][] page of the documentation for more information.

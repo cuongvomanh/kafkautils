@@ -7,14 +7,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
-@ConfigurationProperties(prefix = "kafka-source")
-public class SourceKafkaProperties {
+@ConfigurationProperties(prefix = "kafka")
+public class KafkaProperties {
 
     private String bootStrapServers = "localhost:9092";
 
     private Map<String, String> consumer = new HashMap<>();
 
     private Map<String, String> producer = new HashMap<>();
+
+    private Map<String, String> streams = new HashMap<>();
 
     public String getBootStrapServers() {
         return bootStrapServers;
@@ -46,5 +48,17 @@ public class SourceKafkaProperties {
 
     public void setProducer(Map<String, String> producer) {
         this.producer = producer;
+    }
+
+    public Map<String, Object> getStreamsProps() {
+        Map<String, Object> properties = new HashMap<>(this.streams);
+        if (!properties.containsKey("bootstrap.servers")) {
+            properties.put("bootstrap.servers", this.bootStrapServers);
+        }
+        return properties;
+    }
+
+    public void setStreams(Map<String, String> streams) {
+        this.streams = streams;
     }
 }

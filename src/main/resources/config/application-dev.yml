@@ -55,7 +55,7 @@ spring:
         enabled: true
 
 server:
-  port: 8081
+  port: 8050
 
 # ===================================================================
 # JHipster specific properties
@@ -114,6 +114,11 @@ kafka-target:
   producer:
     key.serializer: org.apache.kafka.common.serialization.StringSerializer
     value.serializer: org.apache.kafka.common.serialization.StringSerializer
+app:
+  etctransform:
+    columns: 'ID VALUE'
+    inputtopic: streams-plaintext-input
+    outputtopic: streams-wordcount-output
 # ===================================================================
 # Application specific properties
 # Add your own application properties here, see the ApplicationProperties class
