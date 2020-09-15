@@ -20,8 +20,10 @@ java -jar -Dspring.profiles.active=server2local target/kafkautils-0.0.1-SNAPSHOT
 
 ```
 java -jar -Dspring.config.location="./src/main/resources/config/" -Dspring.profiles.active=server2local target/kafkautils-0.0.1-SNAPSHOT.jar
+```
 
 ### Create data
+
 ```
 
 while true; do ./reproduce.sh;done
@@ -39,12 +41,15 @@ while true; do kafka-console-producer.sh --bootstrap-server localhost:9092 --top
 ```
 
 ### Start transform
+
 ```
 
 curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' --header 'X-XSRF-TOKEN: ' 'http://localhost:8050/api/kafkautils-kafka/transform?sourcetopic=cdr_success_toll_collection-133&targettopic=cdr_success_toll_collection-133-transformed'
 
 ```
+
 ## Convert to json
+
 ```
 
 java -jar -Dspring.profiles.active=server2local target/kafkautils-0.0.1-SNAPSHOT.jar
@@ -154,4 +159,7 @@ To configure CI for your project, run the ci-cd sub-generator (`jhipster ci-cd`)
 [running tests page]: https://www.jhipster.tech/documentation-archive/v6.9.1/running-tests/
 [code quality page]: https://www.jhipster.tech/documentation-archive/v6.9.1/code-quality/
 [setting up continuous integration]: https://www.jhipster.tech/documentation-archive/v6.9.1/setting-up-ci/
+
+```
+
 ```
