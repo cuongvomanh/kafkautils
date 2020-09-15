@@ -2,23 +2,54 @@
 
 ## Cusomize
 
+### Download or create file config and put it to ./src/main/resources/config/ folder (e.g: application-server2local.yml)
+
+### Build
+
 ```
+mvn clean package
+```
+
+### Run
+
+```
+java -jar -Dspring.profiles.active=server2local target/kafkautils-0.0.1-SNAPSHOT.jar
+```
+
+### Or if you want to change config file without rebuild code
+
+```
+java -jar -Dspring.config.location="./src/main/resources/config/" -Dspring.profiles.active=server2local target/kafkautils-0.0.1-SNAPSHOT.jar
+
+### Create data
+```
+
 while true; do ./reproduce.sh;done
+
 ```
 
 OR
 
 ```
-kafka-console-consumer.sh --bootstrap-server localhost:9092  --topic cdr_success_toll_collection-133 --from-beginning > cdr_success_toll_collection-133.data
-head  cdr_success_toll_collection-133.data > cdr_success_toll_collection-133.data.hea
-while true; do kafka-console-producer.sh --bootstrap-server localhost:9092 --topic cdr_success_toll_collection-133  < cdr_success_toll_collection-133.data.head; sleep 10;done
-```
+
+kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic cdr_success_toll_collection-133 --from-beginning > cdr_success_toll_collection-133.data
+head cdr_success_toll_collection-133.data > cdr_success_toll_collection-133.data.head
+while true; do kafka-console-producer.sh --bootstrap-server localhost:9092 --topic cdr_success_toll_collection-133 < cdr_success_toll_collection-133.data.head; sleep 10;done
 
 ```
+
+### Start transform
+```
+
+curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' --header 'X-XSRF-TOKEN: ' 'http://localhost:8050/api/kafkautils-kafka/transform?sourcetopic=cdr_success_toll_collection-133&targettopic=cdr_success_toll_collection-133-transformed'
+
+```
+## Convert to json
+```
+
 java -jar -Dspring.profiles.active=server2local target/kafkautils-0.0.1-SNAPSHOT.jar
-curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json'   --header 'X-XSRF-TOKEN: ' 'http://localhost:8050/api/kafkautils-kafka/convert?sourcetopic=cdr_success_toll_collection-133&targettopic=cdr_success_toll_collection-133-json'
+curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' --header 'X-XSRF-TOKEN: ' 'http://localhost:8050/api/kafkautils-kafka/convert?sourcetopic=cdr_success_toll_collection-133&targettopic=cdr_success_toll_collection-133-json'
 
-curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json'   --header 'X-XSRF-TOKEN: ' 'http://localhost:8050/api/kafkautils-kafka/transform?sourcetopic=cdr_success_toll_collection-133&targettopic=cdr_success_toll_collection-133-transformed'
 ```
 
 This application was generated using JHipster 6.9.1, you can find documentation and help at [https://www.jhipster.tech/documentation-archive/v6.9.1](https://www.jhipster.tech/documentation-archive/v6.9.1).
@@ -68,7 +99,9 @@ For more information, refer to the [Running tests page][].
 Sonar is used to analyse code quality. You can start a local Sonar server (accessible on http://localhost:9001) with:
 
 ```
+
 docker-compose -f src/main/docker/sonar.yml up -d
+
 ```
 
 You can run a Sonar analysis with using the [sonar-scanner](https://docs.sonarqube.org/display/SCAN/Analyzing+with+SonarQube+Scanner) or by using the maven plugin.
@@ -76,13 +109,17 @@ You can run a Sonar analysis with using the [sonar-scanner](https://docs.sonarqu
 Then, run a Sonar analysis:
 
 ```
+
 ./mvnw -Pprod clean verify sonar:sonar
+
 ```
 
 If you need to re-run the Sonar phase, please be sure to specify at least the `initialize` phase since Sonar properties are loaded from the sonar-project.properties file.
 
 ```
+
 ./mvnw initialize sonar:sonar
+
 ```
 
 or
@@ -117,3 +154,4 @@ To configure CI for your project, run the ci-cd sub-generator (`jhipster ci-cd`)
 [running tests page]: https://www.jhipster.tech/documentation-archive/v6.9.1/running-tests/
 [code quality page]: https://www.jhipster.tech/documentation-archive/v6.9.1/code-quality/
 [setting up continuous integration]: https://www.jhipster.tech/documentation-archive/v6.9.1/setting-up-ci/
+```
