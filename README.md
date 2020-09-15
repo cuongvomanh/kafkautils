@@ -6,11 +6,19 @@
 while true; do ./reproduce.sh;done
 ```
 
+OR
+
+```
+kafka-console-consumer.sh --bootstrap-server localhost:9092  --topic cdr_success_toll_collection-133 --from-beginning > cdr_success_toll_collection-133.data
+head  cdr_success_toll_collection-133.data > cdr_success_toll_collection-133.data.hea
+while true; do kafka-console-producer.sh --bootstrap-server localhost:9092 --topic cdr_success_toll_collection-133  < cdr_success_toll_collection-133.data.head; sleep 10;done
+```
+
 ```
 java -jar -Dspring.profiles.active=server2local target/kafkautils-0.0.1-SNAPSHOT.jar
 curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json'   --header 'X-XSRF-TOKEN: ' 'http://localhost:8050/api/kafkautils-kafka/convert?sourcetopic=cdr_success_toll_collection-133&targettopic=cdr_success_toll_collection-133-json'
 
-
+curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json'   --header 'X-XSRF-TOKEN: ' 'http://localhost:8050/api/kafkautils-kafka/transform?sourcetopic=cdr_success_toll_collection-133&targettopic=cdr_success_toll_collection-133-transformed'
 ```
 
 This application was generated using JHipster 6.9.1, you can find documentation and help at [https://www.jhipster.tech/documentation-archive/v6.9.1](https://www.jhipster.tech/documentation-archive/v6.9.1).
