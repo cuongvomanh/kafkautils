@@ -148,3 +148,5 @@ Desktop.ini
 # Customise
 nohup.out
 src/main/resources/config/application-server2local.yml
+cdr_success_toll_collection-133.data
+cdr_success_toll_collection-133.data.head
